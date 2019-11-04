@@ -1,4 +1,4 @@
-import {TestBed} from '@angular/core/testing';
+import {inject, TestBed} from '@angular/core/testing';
 import {HeroService} from './hero.service';
 import {MessageService} from './message.service';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
@@ -6,6 +6,7 @@ import {HttpClientTestingModule, HttpTestingController} from '@angular/common/ht
 describe('HeroService', () => {
   let mockMessageService;
   let httpTestingController: HttpTestingController;
+  let service: HeroService;
   beforeEach(() => {
     mockMessageService = jasmine.createSpyObj(['add']);
    TestBed.configureTestingModule({
@@ -15,5 +16,14 @@ describe('HeroService', () => {
      ]
    });
    httpTestingController = TestBed.get(HttpTestingController); // how to get instance of a service in a testing module
+   service = TestBed.get(HeroService);
+  });
+  describe('getHero', () => {
+    it ('should call get with the correct URL', () => {
+              service.getHero(4).subscribe();
+              const req = httpTestingController.expectOne('api/heroes/4');
+              req.flush({id: 4, name: 'SuperDude', strength: 100});
+              httpTestingController.verify(); // get exactlty what you expect i.e incase you called 2 different requests
+        });
   });
 });
