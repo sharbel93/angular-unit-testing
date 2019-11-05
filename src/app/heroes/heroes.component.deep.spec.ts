@@ -47,7 +47,8 @@ describe('HeroesComponent (deep tests)', () => {
     const heroComponents = fixture.debugElement.queryAll(By.directive(HeroComponent));
     // heroComponents[0].query(By.css('button'))
     //   .triggerEventHandler('click', {stopPropagation: () => {}});
-    (<HeroComponent>heroComponents[0].componentInstance).delete.emit(undefined);
+    // (<HeroComponent>heroComponents[0].componentInstance).delete.emit(undefined);
+    heroComponents[0].triggerEventHandler('delete', null);
     expect(fixture.componentInstance.delete).toHaveBeenCalledWith(HEROES[0]);
   });
 });
