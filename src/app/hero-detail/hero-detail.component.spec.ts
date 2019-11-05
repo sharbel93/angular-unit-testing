@@ -1,4 +1,4 @@
-import {ComponentFixture, fakeAsync, flush, TestBed, tick} from '@angular/core/testing';
+import {async, ComponentFixture, fakeAsync, flush, TestBed, tick} from '@angular/core/testing';
 import {HeroDetailComponent} from './hero-detail.component';
 import {ActivatedRoute} from '@angular/router';
 import {HeroService} from '../hero.service';
@@ -34,16 +34,30 @@ describe('HeroDetailComponent', () => {
     //
     expect(fixture.nativeElement.querySelector('h2').textContent).toContain('SUPERDUDE');
   });
-  //
-  it ('should call updateHero when  save is called', fakeAsync(() => {
+  // By default use fakeAsync
+  // it ('should call updateHero when  save is called', fakeAsync(() => {
+  //   mockHeroService.updateHero.and.returnValue(of({}));
+  //   fixture.detectChanges();
+  //   //
+  //   fixture.componentInstance.save();
+  //   // use tick() or flush()
+  //   // tick(250);
+  //   flush();
+  //   //
+  //   expect(mockHeroService.updateHero).toHaveBeenCalled();
+  // }));
+
+  // using async helper function ; this relies on the zone.js that deals with the promises
+  it ('should call updateHero when  save is called', async(() => {
     mockHeroService.updateHero.and.returnValue(of({}));
     fixture.detectChanges();
     //
     fixture.componentInstance.save();
-    // use tick() or flush()
-    // tick(250);
-    flush();
     //
-    expect(mockHeroService.updateHero).toHaveBeenCalled();
+    fixture.whenStable().then(() => {
+      // wont be called until all other promises has been fulfilled
+      expect(mockHeroService.updateHero).toHaveBeenCalled();
+    });
   }));
+
 });
