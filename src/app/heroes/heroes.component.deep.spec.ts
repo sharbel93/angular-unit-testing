@@ -86,7 +86,7 @@ describe('HeroesComponent (deep tests)', () => {
     fixture.detectChanges();
     //
     const heroComponents = fixture.debugElement.queryAll(By.directive(HeroComponent));
-    let routerLink = heroComponents[0].query(By.directive(RouterLinkDirectiveStub))
+    const routerLink = heroComponents[0].query(By.directive(RouterLinkDirectiveStub))
       .injector.get(RouterLinkDirectiveStub);
     //
     heroComponents[0].query(By.css('a')).triggerEventHandler('click', null);
