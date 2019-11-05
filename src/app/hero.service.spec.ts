@@ -25,5 +25,6 @@ describe('HeroService', () => {
               req.flush({id: 4, name: 'SuperDude', strength: 100});
               httpTestingController.verify(); // get exactlty what you expect i.e incase you called 2 different requests
         });
+
   });
 });
